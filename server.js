@@ -3,28 +3,21 @@ const http = require("http");
 const cors = require("cors");
 const { Server } = require("socket.io");
 
-// 1. Create app FIRST (this was your bug)
 const app = express();
 app.use(cors());
 
-// 2. Safe test route
 app.get("/", (req, res) => {
   res.send("MMO server is running");
 });
 
-// 3. Create server
 const server = http.createServer(app);
 
-// 4. Socket setup
 const io = new Server(server, {
-  cors: {
-    origin: "*"
-  }
+  cors: { origin: "*" }
 });
 
 const players = {};
 
-// 5. Multiplayer logic
 io.on("connection", (socket) => {
   socket.on("join_room", ({ room, username }) => {
     socket.join(room);
@@ -55,9 +48,8 @@ io.on("connection", (socket) => {
   });
 });
 
-// 6. Start server LAST
 const PORT = process.env.PORT || 3000;
 
-server.listen(PORT, () => {
+server.listen(PORT, "0.0.0.0", () => {
   console.log("Server running on port " + PORT);
 });
