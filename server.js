@@ -1,3 +1,9 @@
+app.get("/", (req, res) => {
+  res.send("MMO server is running");
+});
+app.get("/health", (req, res) => {
+  res.json({ status: "ok", players: Object.keys(players).length });
+});
 const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
